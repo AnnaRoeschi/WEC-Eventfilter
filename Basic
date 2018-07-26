@@ -1,0 +1,32 @@
+
+<!-- event for new local account created-->
+<Query Id="0">
+<Select Path="Security">*[System[(EventID=4720)]]</Select>
+</Query>
+
+<!-- Security Event Log cleared-->
+<Query Id="1">
+<Select Path="Security">*[System[(EventID=1102)]]</Select>
+</Query>
+
+<!-- New Service Installed-->
+<Query Id="2">
+<Select Path="System">*[System[(EventID=7045)]]</Select>
+</Query>
+
+<!--Scheduled Task Registered-->
+<Query Id="3"><Select Path="Microsoft-Windows-TaskScheduler/Operational">*[System[(EventID=106)]]</Select>
+</Query>
+
+<!--Scheduled Task Executed-->
+<Query Id="4"><Select Path="Microsoft-Windows-TaskScheduler/Operational">*[System[(EventID=200)]]</Select>
+</Query>
+
+<!-- interesting accounts -->
+<Query Id="0" Path="Security">
+    <Select Path="Security">
+(*[EventData[Data[@Name="TargetUserName"] = "Person1"]]) or 
+(*[EventData[Data[@Name="TargetUserName"] = "Person2"]]) or 
+(*[EventData[Data[@Name="TargetUserName"] = "Person3"]]) 
+and *[System[(EventID=4624 or EventID=4625 or EventID=4648)]]
+</Select>
